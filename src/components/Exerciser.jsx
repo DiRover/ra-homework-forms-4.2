@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import List from './List';
-import reverse from './reverse';
+import sort from './sort';
 
 
 export default function Exerciser(props) {
@@ -11,11 +11,20 @@ export default function Exerciser(props) {
     })
     const handleSubmit = (params) => {
         params.preventDefault();
-        //if (!state.date) return;
-        //if (!state.distance) return;
-        setState((prevState) => { 
-            state.list.push({dateNew: state.date, distanceNew: state.distance});
-            return {...prevState, list: state.list}});
+        if (!state.date) return;
+        if (!state.distance) return;
+        const obj = {date: state.date, distance: state.distance};
+        const arr = state.list.map((o) => {
+            if (o.date === obj.date) {
+                o.distance = Number(o.distance) + Number(obj.distance);
+                return o;
+            } else if (state.d)
+        })
+        const listNew = state.list.length === 0 ? [obj] : [...state.list, obj];
+        setState((prevState) => {
+            
+            return {...prevState, list: listNew};
+        })
     }
 
     const handleDate = (params) => {
