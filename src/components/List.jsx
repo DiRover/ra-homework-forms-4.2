@@ -1,19 +1,18 @@
 import React from 'react';
-import reverse from './reverse';
+
 
 export default function List(props) {
     const { list } = props;
-    
-    console.log(list);
-    
+    const { deleteItem } = props;
+
     return (
-        list.map((item) => {
-            return <div className='item_box'>
-                <div>{ reverse(item.date) }</div>
-                <div>{ item.distance }</div>
-                <div className='material-icons'>edit</div>
-                <div className='material-icons'>close</div>
-            </div>
+        list.map((item) => {//отрисовываем список
+            return <div className='item_box' key={item.date}>
+                        <div>{ (item.date).split('-').reverse().join('.') }</div>
+                        <div>{ item.distance }</div>
+                        {/*используем стрелочную функцию для передачи аргумента в обработчике, по другому не работает*/}
+                        <button className='material-icons' onClick={()=>deleteItem(item.date)}>close</button>
+                    </div>
         })
     )
 }

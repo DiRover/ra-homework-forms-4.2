@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import List from './List';
-import sort from './sort';
+import compare from './compare';
 
 
 export default function Exerciser(props) {
@@ -11,47 +11,61 @@ export default function Exerciser(props) {
     })
     const handleSubmit = (params) => {
         params.preventDefault();
-        if (!state.date) return;
-        if (!state.distance) return;
+        if (!state.date) return;//проверям наличие введённой даты
+        if (!state.distance) return;//проверяем наличие введённой дистанции
         const obj = {date: state.date, distance: state.distance};
-        const arr = state.list.map((o) => {
-            if (o.date === obj.date) {
-                o.distance = Number(o.distance) + Number(obj.distance);
-                return o;
-            } else if (state.d)
-        })
-        const listNew = state.list.length === 0 ? [obj] : [...state.list, obj];
-        setState((prevState) => {
-            
-            return {...prevState, list: listNew};
+        let ind;
+        state.list.forEach((item, index) => { //проверяем наличие совпадения дат
+            if (item.date === state.date) { //если дата уже есть, складываем дистанцию
+                obj.distance = Number(item.distance) + Number(obj.distance);
+                ind = index;
+            }
+        });
+        if (ind !== undefined) {//если совпадение было, то заменяем объект в массиве
+            state.list.splice(ind, 1, obj);//на объект с увеличенной дистанцией
+        } else if (state.list.length === 0 || !ind) {//если это первый ввод или совпадение дат отсутствует
+            state.list.push(obj);
+        }
+
+        setState((prevState) => {//создаём список
+            return {...prevState, list: state.list.sort(compare)};//сортируем массив
         })
     }
 
-    const handleDate = (params) => {
-        //console.log('ok date');
+    const handleDate = (params) => {//обработчик для записи даты
         const valueDate = params.target.value;
         setState((prevState) => {return {...prevState, date: valueDate}});
     };
 
-    const handleDistance = (params) => {
-        //console.log('ok distance');
+    const handleDistance = (params) => {//обработчик для записи дистанции
         const valueDistance = params.target.value;
         setState((prevState) => {return {...prevState, distance: valueDistance}});
-        //console.log(valueDistance);
     };
+
+    const handleDeleteItem = (params) => {//обработчик для удаления
+        setState((prevState) => {
+            return {...prevState, list: state.list.filter((item) => item.date !== params)};
+        })
+    }
 
     return (
         <div className='container'>
+            
+            <header className='header'>
+                <div>Date</div>
+                <div>Distance</div>
+            </header>
             <div className='container-form'>
                 <form className='form'>
-                    <label htmlFor="date" className='label'>Date</label>
+                    
                     <input id="date" name="date" type="date" onChange={handleDate}/>
-                    <label htmlFor="distance" className='label'>Distance</label>
-                    <input id="distance" name="distance" onChange={handleDistance}/>
-                    <button onClick={handleSubmit}>Ok</button>
+                    
+                    <input id="distance" name="distance" type='number' onChange={handleDistance}/>
+                    
                 </form>
+                <button className='button' onClick={handleSubmit}>Ok</button>
             </div>
-            <List list = { state.list } />
+            <List list = { state.list } deleteItem = {  handleDeleteItem } />
         </div>
     )
 }

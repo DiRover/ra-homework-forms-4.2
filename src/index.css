@@ -38,3 +38,30 @@ code {
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+
+.container {
+  width: 450px;
+  margin: 50px auto 0;
+};
+
+
+
+.form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  
+};
+
+.head:nth {
+  margin-left: 20px;
+}
+
+
+.item_box {
+  display: flex;
+  justify-content: space-between;
+}
