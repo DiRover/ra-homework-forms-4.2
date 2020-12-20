@@ -56,10 +56,23 @@ code {
   
 };
 
-.head:nth {
+/*хреновы стили в реакт работают только так*/
+.header:last-child {
   margin-left: 20px;
 }
 
+.title {
+  margin-left: 90px;
+}
+
+#date {
+  height: 50px;
+}
+
+#distance {
+  margin-left: 50px;
+  height: 50px;
+}
 
 .item_box {
   display: flex;

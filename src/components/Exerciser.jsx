@@ -52,8 +52,8 @@ export default function Exerciser(props) {
         <div className='container'>
             
             <header className='header'>
-                <div>Date</div>
-                <div>Distance</div>
+                <div className='title date-title'>Date</div>
+                <div className='title distance-title'>Distance</div>
             </header>
             <div className='container-form'>
                 <form className='form'>
